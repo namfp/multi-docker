@@ -1,0 +1,22 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t namnguyen107/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true namnguyen107/react-test npm test
+
+
+after_success:
+    - docker build -t namnguyen107/multi-client  ./client
+    - docker build -t namnguyen107/multi-nginx ./nginx
+    - docker build -t namnguyen107/multi-server ./server
+    - docker build -t namnguyen107/multi-worker ./worker
+
+    # log in to the docker CLI
+    
+
+    # take those images and push them to dockerhub
+
